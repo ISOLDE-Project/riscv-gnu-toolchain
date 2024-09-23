@@ -38,8 +38,8 @@
 	branch = master
 [submodule "llvm"]
 	path = llvm
-	url = https://github.com/llvm/llvm-project.git
-	branch = release/17.x
+	url = https://github.com/ISOLDE-Project/riscv-llvm.git
+	branch = isolde/Perian_Cristian
 [submodule "uclibc-ng"]
 	path = uclibc-ng
 	url = https://git.uclibc-ng.org/git/uclibc-ng.git
