@@ -1,3 +1,9 @@
+# ISOLDE
+```sh
+make -f Makefile.tools
+./configure --prefix=`pwd`/install/riscv-llvm  --enable-llvm --disable-linux --with-arch=rv32gc --with-abi=lp32d
+make -j$(nproc) build-llvm
+```
 RISC-V GNU Compiler Toolchain
 =============================
 

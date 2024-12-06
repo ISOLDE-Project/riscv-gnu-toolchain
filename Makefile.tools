@@ -1,0 +1,26 @@
+ROOT_DIR := $(shell git rev-parse --show-toplevel)
+
+num_cores         := $(shell nproc)
+num_cores_half    := $(shell echo "$$(($(num_cores) / 2))")
+num_cores_quarter := $(shell echo "$$(($(num_cores) / 4))")
+
+INSTALL_PREFIX          ?= install
+INSTALL_DIR             ?= ${ROOT_DIR}/${INSTALL_PREFIX}
+LLVM_INSTALL_DIR        ?= ${INSTALL_DIR}/riscv-llvm
+ONNX_INSTALL_DIR        ?= ${INSTALL_DIR}/onnx-mlir
+PROTOC_INSTALL_DIR      ?= ${INSTALL_DIR}/protoc
+CMAKE_INSTALL_DIR       ?= ${INSTALL_DIR}/cmake
+MLIR_DIR                ?= ${ROOT_DIR}/toolchain/riscv-llvm/build/lib/cmake/mlir
+PROTOC_DIR              ?= ${PROTOC_INSTALL_DIR}/bin
+
+CC  := clang-10
+CXX := clang++-10
+
+CMAKE ?=  $(CMAKE_INSTALL_DIR)/bin/cmake
+
+toolchain-cmake: contrib/cmake-url 
+	mkdir -p cmake
+	wget  `cat $(CURDIR)/$<` -O cmake/cmake-linux-x86_64.tar.gz  
+	mkdir -p $(CMAKE_INSTALL_DIR)
+	cd cmake && \
+	tar -xzvf cmake-linux-x86_64.tar.gz  --strip-components=1 -C  $(CMAKE_INSTALL_DIR)

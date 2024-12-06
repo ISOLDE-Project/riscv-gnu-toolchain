@@ -20,6 +20,20 @@ ENABLE_DEFAULT_PIE := @enable_default_pie@
 DEJAGNU_SRCDIR := @with_dejagnu_src@
 
 SIM ?= @WITH_SIM@
+##ISOLDE
+
+CC  := clang-10
+CXX := clang++-10
+
+
+
+num_cores         := $(shell nproc)
+num_cores_half    := $(shell echo "$$(($(num_cores) / 2))")
+num_cores_quarter := $(shell echo "$$(($(num_cores) / 4))")
+
+ROOT_DIR                := $(shell git rev-parse --show-toplevel)
+CMAKE_INSTALL_DIR       := ${ROOT_DIR}/install/cmake
+CMAKE                   := $(CMAKE_INSTALL_DIR)/bin/cmake
 
 # Shared lib suffix
 IS_DARWIN := $(shell uname -s | grep Darwin)
@@ -164,7 +178,7 @@ $(error "Setting multilib flags for LLVM builds is not supported.")
 endif
 endif
 
-.PHONY: build-binutils build-gdb build-gcc1 build-libc build-gcc2 build-qemu build-llvm
+.PHONY: build-binutils build-gdb build-gcc1 build-libc build-gcc2 build-qemu build-llvm stamps/build-llvm-newlib
 build-binutils: stamps/build-binutils-@default_target@
 build-gdb: stamps/build-gdb-@default_target@
 build-gcc%: stamps/build-gcc-@default_target@-stage%
@@ -1203,12 +1217,11 @@ stamps/build-llvm-linux: $(LLVM_SRCDIR) $(LLVM_SRC_GIT) $(BINUTILS_SRCDIR) $(BIN
 	cd $(INSTALL_DIR)/bin && ln -s -f clang $(LINUX_TUPLE)-clang && ln -s -f clang++ $(LINUX_TUPLE)-clang++
 	mkdir -p $(dir $@) && touch $@
 
-stamps/build-llvm-newlib: $(LLVM_SRCDIR) $(LLVM_SRC_GIT) $(BINUTILS_SRCDIR) $(BINUTILS_SRC_GIT) \
-                          stamps/build-gcc-newlib-stage2
+stamps/build-llvm-newlib: $(LLVM_SRCDIR) $(LLVM_SRC_GIT) 
 	rm -rf $@ $(notdir $@)
 	mkdir $(notdir $@)
 	cd $(notdir $@) && \
-	    cmake $(LLVM_SRCDIR)/llvm \
+	    $(CMAKE)  $(LLVM_SRCDIR)/llvm \
 	    -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) \
 	    -DCMAKE_BUILD_TYPE=Release \
 	    -DLLVM_TARGETS_TO_BUILD="RISCV" \
@@ -1217,8 +1230,8 @@ stamps/build-llvm-newlib: $(LLVM_SRCDIR) $(LLVM_SRC_GIT) $(BINUTILS_SRCDIR) $(BI
 	    -DLLVM_INSTALL_TOOLCHAIN_ONLY=On \
 	    -DLLVM_BINUTILS_INCDIR=$(BINUTILS_SRCDIR)/include \
 	    -DLLVM_PARALLEL_LINK_JOBS=4
-	$(MAKE) -C $(notdir $@)
-	$(MAKE) -C $(notdir $@) install
+	$(MAKE) -j $(num_cores_half) -C $(notdir $@)
+	$(MAKE) -j $(num_cores_half) -C $(notdir $@) install
 	cp $(notdir $@)/lib/LLVMgold.$(SHARED_LIB_SUFFIX) $(INSTALL_DIR)/lib
 	cd $(INSTALL_DIR)/bin && ln -s -f clang $(NEWLIB_TUPLE)-clang && \
 	    ln -s -f clang++ $(NEWLIB_TUPLE)-clang++
