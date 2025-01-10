@@ -4,6 +4,11 @@ make -f Makefile.tools
 ./configure --prefix=`pwd`/install/riscv-llvm  --enable-llvm --disable-linux --with-arch=rv32gc --with-abi=lp32d
 make -j$(nproc) build-llvm
 ```
+After you build llvm, build newllib
+```sh
+make -f Makefile.newlib
+```
+
 RISC-V GNU Compiler Toolchain
 =============================
 

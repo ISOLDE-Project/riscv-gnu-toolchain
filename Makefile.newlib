@@ -1,0 +1,20 @@
+CV_SW_TOOLCHAIN := $(shell git rev-parse --show-toplevel)/install/riscv-llvm
+
+
+toolchain-llvm-newlib: Makefile
+	cd newlib  && git clean -xfdf 
+	cd newlib && rm -rf build && mkdir -p build && cd build && \
+    ../configure --prefix=${CV_SW_TOOLCHAIN} \
+               --disable-newlib-io-long-double \
+               --disable-newlib-io-long-long \
+               --disable-newlib-io-float \
+               --target=riscv32-unknown-elf \
+               CC_FOR_TARGET="${CV_SW_TOOLCHAIN}/bin/clang --target=riscv32 -march=rv32g -mabi=ilp32 -mno-relax -mcmodel=medany  -Wno-error-implicit-function-declaration -Wno-error=int-conversion" \
+               AS_FOR_TARGET=${CV_SW_TOOLCHAIN}/bin/llvm-as \
+               AR_FOR_TARGET=${CV_SW_TOOLCHAIN}/bin/llvm-ar \
+               LD_FOR_TARGET=${CV_SW_TOOLCHAIN}/bin/llvm-ld \
+           RANLIB_FOR_TARGET=${CV_SW_TOOLCHAIN}/bin/llvm-ranlib  \
+		   --disable-newlib-supplied-syscalls && \
+               make  -j$(nproc) && \
+               make install
+

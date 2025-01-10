@@ -6,3 +6,6 @@
 	path = llvm
 	url = https://github.com/ISOLDE-Project/riscv-llvm.git
 	branch = master
+[submodule "newlib"]
+	path = newlib
+	url = https://sourceware.org/git/newlib-cygwin.git
