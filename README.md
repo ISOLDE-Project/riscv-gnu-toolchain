@@ -5,6 +5,11 @@ make -f Makefile.tools
 make -j$(nproc) build-llvm build-binutils
 ```
 After you build llvm, build newllib
+update git sbmodule:  
+```sh
+git submodule update --init newlib
+```
+buid:  
 ```sh
 make -f Makefile.newlib
 ```

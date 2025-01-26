@@ -1,0 +1,13 @@
+ROOT_DIR            :=  $(shell git rev-parse --show-toplevel)
+LLVM_BIN            :=  $(ROOT_DIR)/build-llvm-newlib/bin
+LLVM_BUILD          :=  $(ROOT_DIR)/build-llvm-newlib/
+#PATH                :=  $(LLVM_BIN):$PATH
+#export PATH
+
+.PHONY: llc
+llc:	
+	make -C $(LLVM_BUILD) -j38 $@
+
+.PHONY: run-test
+run-test:
+	$(LLVM_BIN)/llvm-lit  $(ROOT_DIR)/llvm/llvm/test/CodeGen/ISOLDE/test_q.ll $(ROOT_DIR)/llvm/llvm/test/CodeGen/ISOLDE/test_q1.ll
