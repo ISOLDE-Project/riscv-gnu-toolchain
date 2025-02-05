@@ -13,6 +13,17 @@ buid:
 ```sh
 make -f Makefile.newlib
 ```
+Run regression tests:
+```sh
+cd regression
+make -f Makefile.isolde run-test
+```
+## Package the compiler
+
+```sh
+cd install
+tar vczf riscv-llvm.tar.gz riscv-llvm/riscv32-unknown-elf/ riscv-llvm/bin/ riscv-llvm/lib
+```
 
 RISC-V GNU Compiler Toolchain
 =============================
