@@ -22,7 +22,7 @@ make -f Makefile.isolde run-test
 
 ```sh
 cd install
-tar vczf riscv-llvm.tar.gz riscv-llvm/riscv32-unknown-elf/ riscv-llvm/bin/ riscv-llvm/lib
+tar vczf riscv32-elf-ubuntu-20.04-llvm-$(date "+%Y-%m-%d").tar.gz riscv-llvm/riscv32-unknown-elf/ riscv-llvm/bin/ riscv-llvm/lib
 ```
 
 RISC-V GNU Compiler Toolchain
