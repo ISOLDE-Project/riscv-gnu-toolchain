@@ -13,7 +13,11 @@ buid:
 ```sh
 make -f Makefile.newlib
 ```
-
+Run regression tests:
+```sh
+cd regression
+make -f Makefile.isolde run-test
+```
 RISC-V GNU Compiler Toolchain
 =============================
 

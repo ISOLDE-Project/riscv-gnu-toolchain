@@ -6,13 +6,14 @@ LLVM_BUILD          :=  $(ROOT_DIR)/build-llvm-newlib/
 
 .PHONY: llc
 llc:	
-	make -C $(LLVM_BUILD) -j$(nproc) $@
+	make -C $(LLVM_BUILD) -j38 $@
 
-.PHONY: llvm-mc 
-llvm-mc :	
-	make -C $(LLVM_BUILD) -j$(nproc) $@
+.PHONY: clean
+clean:	
+	make -C $(LLVM_BUILD) -j38 $@
 
 .PHONY: run-test
 run-test:
 	$(LLVM_BIN)/llvm-lit  $(ROOT_DIR)/llvm/llvm/test/CodeGen/ISOLDE/test_q.ll $(ROOT_DIR)/llvm/llvm/test/CodeGen/ISOLDE/test_q1.ll
 	$(LLVM_BIN)/llvm-lit  $(ROOT_DIR)/llvm/llvm/test/CodeGen/ISOLDE/redmule_gemm.ll $(ROOT_DIR)/llvm/llvm/test/CodeGen/ISOLDE/redmule_gemm.s
+	$(LLVM_BIN)/llvm-lit  $(ROOT_DIR)/llvm/clang/test/CodeGen/ISOLDE/redmule_gemm.c
