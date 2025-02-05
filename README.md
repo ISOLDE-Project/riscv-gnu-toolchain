@@ -1,5 +1,6 @@
 # ISOLDE
 ```sh
+git submodule update --init 
 make -f Makefile.tools
 ./configure --prefix=`pwd`/install/riscv-llvm  --enable-llvm --disable-linux --with-arch=rv32gc --with-abi=lp32d
 make -j$(nproc) build-llvm build-binutils
@@ -18,6 +19,12 @@ Run regression tests:
 cd regression
 make -f Makefile.isolde run-test
 ```
+## Create distribution file
+
+```sh
+make -f Makefile.newlib dist
+```
+
 RISC-V GNU Compiler Toolchain
 =============================
 
