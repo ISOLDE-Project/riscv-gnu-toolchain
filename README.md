@@ -1,5 +1,6 @@
 # ISOLDE
 ```sh
+git submodule update --init 
 make -f Makefile.tools
 ./configure --prefix=`pwd`/install/riscv-llvm  --enable-llvm --disable-linux --with-arch=rv32gc --with-abi=lp32d
 make -j$(nproc) build-llvm build-binutils
@@ -18,11 +19,10 @@ Run regression tests:
 cd regression
 make -f Makefile.isolde run-test
 ```
-## Package the compiler
+## Create distribution file
 
 ```sh
-cd install
-tar vczf riscv32-elf-ubuntu-20.04-llvm-$(date "+%Y-%m-%d").tar.gz riscv-llvm/riscv32-unknown-elf/ riscv-llvm/bin/ riscv-llvm/lib
+make -f Makefile.newlib dist
 ```
 
 RISC-V GNU Compiler Toolchain

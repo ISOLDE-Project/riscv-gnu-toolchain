@@ -1,3 +1,6 @@
+
+INSTALL_DIR     := $(shell git rev-parse --show-toplevel)/install
+DISTRO_NAME     := riscv32-elf-ubuntu-$(shell lsb_release -rs)-llvm-$(shell date "+%Y-%m-%d").tar.gz
 CV_SW_TOOLCHAIN := $(shell git rev-parse --show-toplevel)/install/riscv-llvm
 
 
@@ -18,3 +21,8 @@ toolchain-llvm-newlib: Makefile
                make  -j$(nproc) && \
                make install
 
+
+dist:
+	cd ${INSTALL_DIR} && \
+	tar vczf  ${DISTRO_NAME} riscv-llvm/riscv32-unknown-elf/ riscv-llvm/bin/ riscv-llvm/lib  && \
+	mv  ${DISTRO_NAME} ../
