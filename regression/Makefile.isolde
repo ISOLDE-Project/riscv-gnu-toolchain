@@ -1,19 +1,26 @@
 ROOT_DIR            :=  $(shell git rev-parse --show-toplevel)
 LLVM_BIN            :=  $(ROOT_DIR)/build-llvm-newlib/bin
 LLVM_BUILD          :=  $(ROOT_DIR)/build-llvm-newlib/
-#PATH                :=  $(LLVM_BIN):$PATH
-#export PATH
+num_cores           := $(shell nproc)
+num_cores_half      := $(shell echo "$$(($(num_cores) / 2))")
 
 .PHONY: llc
 llc:	
-	make -C $(LLVM_BUILD) -j38 $@
+	make -C $(LLVM_BUILD) -j$(nproc) $@
 
-.PHONY: clean
-clean:	
-	make -C $(LLVM_BUILD) -j38 $@
+.PHONY: llvm-mc
+llvm-mc:	
+	make -C $(LLVM_BUILD) -j$(nproc) $@
+
+.PHONY: clang
+clang:	
+	make -C $(LLVM_BUILD) -j$(num_cores_half)  clang	
+	make -C $(LLVM_BUILD) -j$(nproc) install	
 
 .PHONY: run-test
 run-test:
-	$(LLVM_BIN)/llvm-lit  $(ROOT_DIR)/llvm/llvm/test/CodeGen/ISOLDE/test_q.ll $(ROOT_DIR)/llvm/llvm/test/CodeGen/ISOLDE/test_q1.ll
-	$(LLVM_BIN)/llvm-lit  $(ROOT_DIR)/llvm/llvm/test/CodeGen/ISOLDE/redmule_gemm.ll $(ROOT_DIR)/llvm/llvm/test/CodeGen/ISOLDE/redmule_gemm.s
-	$(LLVM_BIN)/llvm-lit  $(ROOT_DIR)/llvm/clang/test/CodeGen/ISOLDE/redmule_gemm.c
+	$(LLVM_BIN)/llvm-lit  $(ROOT_DIR)/llvm/llvm/test/CodeGen/ISOLDE/test_q.ll $(ROOT_DIR)/llvm/llvm/test/CodeGen/ISOLDE/test_q1.ll              \
+	                      $(ROOT_DIR)/llvm/llvm/test/CodeGen/ISOLDE/test_q2.ll $(ROOT_DIR)/llvm/llvm/test/CodeGen/ISOLDE/test_q3.ll             \
+						  $(ROOT_DIR)/llvm/llvm/test/CodeGen/ISOLDE/test_q4.ll $(ROOT_DIR)/llvm/llvm/test/CodeGen/ISOLDE/test_q5.ll 
+	$(LLVM_BIN)/llvm-lit  $(ROOT_DIR)/llvm/llvm/test/CodeGen/ISOLDE/redmule_gemm.ll $(ROOT_DIR)/llvm/llvm/test/CodeGen/ISOLDE/redmule_gemm.s    \
+	                      $(ROOT_DIR)/llvm/clang/test/CodeGen/ISOLDE/redmule_gemm.c

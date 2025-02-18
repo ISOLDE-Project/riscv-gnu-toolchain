@@ -1,7 +1,5 @@
-llc  -mtriple=riscv32 -mattr=+v -target-abi=ilp32d -filetype=asm -o - $ROOT_DIR/llvm/llvm/test/CodeGen/ISOLDE/test_q.ll
-llc  -mtriple=riscv32 -mattr=+v -target-abi=ilp32d -filetype=asm -o - $ROOT_DIR/llvm/llvm/test/CodeGen/ISOLDE/test_q1.ll
+. ./env.sh
 
-
-#llvm-lit  $ROOT_DIR/llvm/llvm/test/CodeGen/ISOLDE/test_q.ll $ROOT_DIR/llvm/llvm/test/CodeGen/ISOLDE/test_q1.ll
-#llvm-lit   $ROOT_DIR/llvm/llvm/test/CodeGen/ISOLDE/test_q1.ll
-llc  -mtriple=riscv32 -mattr=+v -target-abi=ilp32d -filetype=asm -o -  $ROOT_DIR/llvm/llvm/test/CodeGen/ISOLDE/redmule_gemm.ll
+llvm-lit -v $ROOT_DIR/llvm/llvm/test/CodeGen/ISOLDE/test_q4.ll   $ROOT_DIR/llvm/llvm/test/CodeGen/ISOLDE/test_q1.ll    \
+            $ROOT_DIR/llvm/llvm/test/CodeGen/ISOLDE/test_q3.ll   $ROOT_DIR/llvm/llvm/test/CodeGen/ISOLDE/test_q5.ll     \
+            $ROOT_DIR/llvm/llvm/test/CodeGen/ISOLDE/test_q2.ll   $ROOT_DIR/llvm/llvm/test/CodeGen/ISOLDE/test_qn.s
