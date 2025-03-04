@@ -6,6 +6,8 @@ num_cores_half      := $(shell echo "$$(($(num_cores) / 2))")
 
 .PHONY: llc
 llc:	
+	make -C $(LLVM_BUILD) -j$(nproc) intrinsics_gen 
+	make -C $(LLVM_BUILD) -j$(nproc) lib/Target/RISCV
 	make -C $(LLVM_BUILD) -j$(nproc) $@
 
 .PHONY: llvm-mc
