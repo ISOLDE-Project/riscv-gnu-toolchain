@@ -22,8 +22,8 @@ DEJAGNU_SRCDIR := @with_dejagnu_src@
 SIM ?= @WITH_SIM@
 ##ISOLDE
 
-CC  := clang-10
-CXX := clang++-10
+CC  := clang-20
+CXX := clang++-20
 
 
 

@@ -1,6 +1,7 @@
 
 INSTALL_DIR     := $(shell git rev-parse --show-toplevel)/install
-DISTRO_NAME     := riscv32-elf-ubuntu-$(shell lsb_release -rs)-llvm-$(date "+%Y-%m-%d").tar.gz
+#DISTRO_NAME     := riscv32-elf-ubuntu-$(shell lsb_release -rs)-llvm-$(date "+%Y-%m-%d").tar.gz
+DISTRO_NAME     := riscv32-elf-ol-$(shell lsb_release -rs)-llvm-$(date "+%Y-%m-%d").tar.gz
 CV_SW_TOOLCHAIN := $(shell git rev-parse --show-toplevel)/install/riscv-llvm
 
 
